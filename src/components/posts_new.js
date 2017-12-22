@@ -25,8 +25,8 @@ class PostsNew extends Component {
           component={this.renderField}
         />
         <Field
-          label="Tags"
-          name="tags"
+          label="Categories"
+          name="categories"
           component={this.renderField}
         />
         <Field
@@ -39,6 +39,22 @@ class PostsNew extends Component {
   }
 }
 
+function validate(values) {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = "Title missing"
+  } else if (values.title.length < 3) {
+    errors.title =  "Title must have at least 3 characters"
+  }
+  if (!values.categories) {
+    errors.categories = "Category missing"
+  }
+  if (!values.content) {
+    errors.content = "Content missing"
+  }
+}
 export default reduxForm({
+  validate,
   form: 'PostsNewForm'
 })(PostsNew);
