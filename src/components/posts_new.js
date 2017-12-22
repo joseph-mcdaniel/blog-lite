@@ -11,14 +11,21 @@ class PostsNew extends Component {
           type="text"
           {...field.input}
         />
+        {field.meta.error}
       </div>
     );
   }
 
+  onSubmit(values) {
+    console.log(values);
+  }
+
 
   render() {
+    const { handleSubmit } = this.props;
+
     return (
-      <form>
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field
           label="Title"
           name="title"
@@ -34,6 +41,7 @@ class PostsNew extends Component {
           name="content"
           component={this.renderField}
         />
+        <button type="submit" className="btn btn-primary">Submit</button>
       </form>
     );
   }
@@ -44,8 +52,6 @@ function validate(values) {
 
   if (!values.title) {
     errors.title = "Title missing"
-  } else if (values.title.length < 3) {
-    errors.title =  "Title must have at least 3 characters"
   }
   if (!values.categories) {
     errors.categories = "Category missing"
@@ -53,6 +59,7 @@ function validate(values) {
   if (!values.content) {
     errors.content = "Content missing"
   }
+  return (errors);
 }
 export default reduxForm({
   validate,
